@@ -15,24 +15,18 @@ variable "entry_point" {
 }
 
 variable "source_directory" {
-  type        = string
-  description = "Path to the function's source code"
+  type = string
+  description = "Path to the function's source code directory"
 }
 
-variable "trigger_bucket" {
+variable "source_bucket" {
   type        = string
-  description = "The Cloud Storage bucket to trigger the function"
+  description = "The Cloud Storage bucket where the function source code is stored"
 }
 
 variable "vpc_connector_name" {
   type        = string
   description = "The VPC Connector to use for the function's outbound traffic"
-}
-
-variable "environment_vars" {
-  type        = map(string)
-  description = "Environment variables for the function"
-  default     = {}
 }
 
 variable "region" {

@@ -9,8 +9,10 @@ variable "region" {
   default     = "us-central1"
 }
 
-variable "environment_vars" {
-  type        = map(string)
-  description = "Environment variables for Cloud Functions"
-  default     = {}
+variable "function_names" {
+  description = "A map of function names to their configurations"
+  type = map(any)
+  default = {
+    "hello-world" = {}
+    }
 }

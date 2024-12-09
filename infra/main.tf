@@ -21,21 +21,21 @@ resource "google_vpc_access_connector" "connector" {
   network       = "default"
 }
 
-# Google Cloud Storage bucket for event triggers or function storage
 resource "google_storage_bucket" "function_bucket" {
-  name          = "${var.project_id}-function-bucket"
+  name          = "${var.project_id}-function-sources"
   location      = var.region
   force_destroy = true
 }
 
-module "function_hello_world" {
+module "functions" {
   source              = "./modules/cloud_function"
-  name                = "function-hello-world"
+  for_each            = var.function_names
+  # Configurations per function
+  name                = each.key
   region              = var.region
   runtime             = "python311"
-  entry_point         = "hello_world" # Defined in main.py
-  source_directory    = "functions/hello-world"
-  trigger_bucket      = google_storage_bucket.function_bucket.name
+  entry_point         = replace(each.key, "-", "_")  # Assuming the entry point is named after the function, replacing dashes with underscores
+  source_directory    = "../functions/${each.key}"
+  source_bucket       = google_storage_bucket.function_bucket.name
   vpc_connector_name  = google_vpc_access_connector.connector.name
-  environment_vars    = var.environment_vars
 }
