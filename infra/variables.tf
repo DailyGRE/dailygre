@@ -9,10 +9,25 @@ variable "region" {
   default     = "us-central1"
 }
 
+variable "im_deployment_repo_uri" {
+  type = string
+  description = "The URI of the Git repository containing the IM deployment"
+}
+
+variable "im_deployment_ref" {
+  type = string
+  description = "The Git ref (branch or tag) of the IM deployment"
+}
+
+variable "github_app_installation_id" {
+  type = number
+  description = "The Cloud Build GitHub App installation ID"
+}
+
 variable "function_names" {
-  description = "A map of function names to their configurations"
-  type = map(any)
+  type = map(object({}))
+  description = "A map of function names to their configurations."
   default = {
     "hello-world" = {}
-    }
+  }
 }
