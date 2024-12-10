@@ -1,0 +1,7 @@
+functions-framework==3.*
+google-cloud-storage
+requests
+pandas
+newsapi-python
+newspaper3k
+lxml-html-clean

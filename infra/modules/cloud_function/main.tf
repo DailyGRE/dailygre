@@ -11,9 +11,9 @@ resource "google_storage_bucket_object" "function_source" {
 }
 
 resource "google_cloudfunctions2_function" "default" {
-  name = var.name
+  name     = var.name
   location = var.region
-  
+
   build_config {
     runtime     = var.runtime
     entry_point = var.entry_point
@@ -26,7 +26,9 @@ resource "google_cloudfunctions2_function" "default" {
   }
 
   service_config {
-    vpc_connector = var.vpc_connector_name
+    vpc_connector    = var.vpc_connector_name
+    ingress_settings = lookup(var.function_config, "ingress_settings", "ALLOW_INTERNAL_ONLY")
+    environment_variables = var.environment_variables
   }
 }
 
