@@ -1,5 +1,5 @@
 terraform {
-  required_version = ">= 1.0.0"
+  required_version = "~> 1.10.1"
   required_providers {
     google = {
       source  = "hashicorp/google"
@@ -36,8 +36,11 @@ module "im_workspace" {
     "github_app_installation_id=${var.github_app_installation_id}",
   ])
   infra_manager_sa_roles = [
+    "roles/cloudbuild.connectionViewer",
     "roles/cloudbuild.builds.editor",
+    "roles/resourcemanager.projectIamAdmin",
     "roles/iam.serviceAccountUser",
+    "roles/secretmanager.viewer",
     "roles/secretmanager.secretAccessor",
     "roles/storage.admin",
     "roles/vpcaccess.admin",
