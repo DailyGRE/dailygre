@@ -35,6 +35,44 @@ module "im-workspace" {
  github_personal_access_token = data.google_secret_manager_secret_version.github_pat.secret_data
 }
 
+resource "google_project_iam_member" "im_sa_cloudbuild_editor" {
+  project = var.project_id
+  role    = "roles/cloudbuild.builds.editor"
+  member  = "serviceAccount:${module.im-workspace.infra_manager_sa}"
+}
+
+resource "google_project_iam_member" "im_sa_iam_sa_user" {
+  project = var.project_id
+  role    = "roles/iam.serviceAccountUser"
+  member  = "serviceAccount:${module.im-workspace.infra_manager_sa}"
+}
+
+resource "google_project_iam_member" "im_sa_secretmanager_accessor" {
+  project = var.project_id
+  role    = "roles/secretmanager.secretAccessor"
+  member  = "serviceAccount:${module.im-workspace.infra_manager_sa}"
+}
+
+
+resource "google_project_iam_member" "im_sa_storage_admin" {
+  project = var.project_id
+  role    = "roles/storage.admin"
+  member  = "serviceAccount:${module.im-workspace.infra_manager_sa}"
+}
+
+resource "google_project_iam_member" "im_sa_vpcaccess_admin" {
+  project = var.project_id
+  role = "roles/vpcaccess.admin"
+  member = "serviceAccount:${module.im-workspace.infra_manager_sa}"
+}
+
+
+resource "google_project_iam_member" "im_sa_cloudfunctions_developer" {
+ project = var.project_id
+ role = "roles/cloudfunctions.developer"
+ member = "serviceAccount:${module.im-workspace.infra_manager_sa}"
+}
+
 resource "google_storage_bucket" "function_bucket" {
   name          = "${var.project_id}-function-sources"
   location      = var.region
