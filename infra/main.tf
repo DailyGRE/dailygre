@@ -13,8 +13,12 @@ provider "google" {
   region  = var.region
 }
 
+data "google_project" "project" {
+  project_id = var.project_id
+}
+
 data "google_secret_manager_secret_version" "github_pat" {
-  project = var.project_id
+  project = data.google_project.project.number
   secret = "github-pat"
   version = "latest"
 }
