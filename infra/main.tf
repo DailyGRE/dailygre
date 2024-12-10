@@ -28,7 +28,13 @@ module "im_workspace" {
   tf_repo_type           = "GITHUB"
   im_deployment_repo_uri = var.im_deployment_repo_uri
   im_deployment_ref      = "main"
-  im_tf_variables        = "project_id=${var.project_id}"
+  im_tf_variables = join(",", [
+    "project_id=${var.project_id}",
+    "region=${var.region}",
+    "im_deployment_repo_uri=${var.im_deployment_repo_uri}",
+    "im_deployment_ref=${var.im_deployment_ref}",
+    "github_app_installation_id=${var.github_app_installation_id}",
+  ])
   infra_manager_sa_roles = [
     "roles/cloudbuild.builds.editor",
     "roles/iam.serviceAccountUser",
@@ -59,7 +65,7 @@ resource "google_vpc_access_connector" "connector" {
 
 module "functions" {
   source   = "./modules/cloud_function"
-  for_each = var.function_names
+  for_each = local.cloud_functions
   # Configurations per function
   name               = each.key
   region             = var.region

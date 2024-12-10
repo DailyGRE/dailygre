@@ -10,24 +10,16 @@ variable "region" {
 }
 
 variable "im_deployment_repo_uri" {
-  type = string
+  type        = string
   description = "The URI of the Git repository containing the IM deployment"
 }
 
 variable "im_deployment_ref" {
-  type = string
+  type        = string
   description = "The Git ref (branch or tag) of the IM deployment"
 }
 
 variable "github_app_installation_id" {
-  type = number
+  type        = number
   description = "The Cloud Build GitHub App installation ID"
-}
-
-variable "function_names" {
-  type = map(object({}))
-  description = "A map of function names to their configurations."
-  default = {
-    "hello-world" = {}
-  }
 }
