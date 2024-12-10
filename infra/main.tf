@@ -13,13 +13,10 @@ provider "google" {
   region  = var.region
 }
 
-data "google_secret_manager_secret" "github_pat" {
-  secret_id = "github-pat"
-  project = var.project_id
-}
-
 data "google_secret_manager_secret_version" "github_pat" {
-  secret = data.google_secret_manager_secret.github_pat.name
+  project = var.project_id
+  secret = "github-pat"
+  version = "latest"
 }
 
 module "im-workspace" {
