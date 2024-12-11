@@ -37,14 +37,17 @@ module "im_workspace" {
     "github_app_installation_id=${var.github_app_installation_id}",
   ])
   infra_manager_sa_roles = [
+    "roles/cloudbuild.connectionViewer",
     "roles/cloudbuild.builds.editor",
+    "roles/resourcemanager.projectIamAdmin",
     "roles/iam.serviceAccountUser",
+    "roles/secretmanager.viewer",
     "roles/secretmanager.secretAccessor",
     "roles/storage.admin",
     "roles/vpcaccess.admin",
     "roles/cloudfunctions.developer"
   ]
-  tf_version = "1.10.1"
+  tf_version = "1.5.7"
 
   github_app_installation_id   = var.github_app_installation_id
   github_personal_access_token = data.google_secret_manager_secret_version.github_pat.secret_data
