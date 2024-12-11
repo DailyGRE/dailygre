@@ -15,7 +15,7 @@ variable "entry_point" {
 }
 
 variable "source_directory" {
-  type = string
+  type        = string
   description = "Path to the function's source code directory"
 }
 
@@ -30,6 +30,16 @@ variable "vpc_connector_name" {
 }
 
 variable "region" {
-  type        = string
-  default     = "us-central1"
+  type    = string
+  default = "us-central1"
+}
+
+variable "function_config" {
+  type        = map(any)
+  description = "Optional configuration parameters to pass to google_cloudfunctions2_function"
+}
+
+variable "environment_variables" {
+  type = map(any) 
+  default = {}
 }

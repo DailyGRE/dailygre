@@ -12,6 +12,7 @@ provider "google" {
   project = var.project_id
   region  = var.region
 }
+
 data "google_secret_manager_secret_version" "github_pat" {
   project = var.project_id
   secret  = "github-pat"
@@ -58,6 +59,14 @@ resource "google_storage_bucket" "function_bucket" {
   force_destroy = true
 }
 
+resource "google_storage_bucket" "content_bucket" {
+  name                        = "${var.project_id}-content-bucket"
+  location                    = var.region
+  uniform_bucket_level_access = true
+  force_destroy               = true
+}
+
+
 resource "google_vpc_access_connector" "connector" {
   name          = "terraform-connector"
   region        = var.region
@@ -79,4 +88,8 @@ module "functions" {
   source_directory   = "../functions/${each.key}"
   source_bucket      = google_storage_bucket.function_bucket.name
   vpc_connector_name = google_vpc_access_connector.connector.name
+  function_config    = each.value
+  environment_variables = {
+    GCS_BUCKET_NAME = google_storage_bucket.content_bucket.name
+  }
 }
