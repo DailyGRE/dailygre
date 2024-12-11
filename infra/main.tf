@@ -29,6 +29,7 @@ module "im_workspace" {
   tf_repo_type           = "GITHUB"
   im_deployment_repo_uri = var.im_deployment_repo_uri
   im_deployment_ref      = "main"
+  im_deployment_repo_dir = "infra"
   im_tf_variables = join(",", [
     "project_id=${var.project_id}",
     "region=${var.region}",
