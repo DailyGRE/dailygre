@@ -1,5 +1,5 @@
 terraform {
-  required_version = "~> 1.10.1"
+  required_version = ">= 1.0.0"
   required_providers {
     google = {
       source  = "hashicorp/google"
@@ -46,7 +46,7 @@ module "im_workspace" {
     "roles/vpcaccess.admin",
     "roles/cloudfunctions.developer"
   ]
-  tf_version = "1.10.1"
+  tf_version = "1.5.7"
 
   github_app_installation_id   = var.github_app_installation_id
   github_personal_access_token = data.google_secret_manager_secret_version.github_pat.secret_data
