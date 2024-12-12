@@ -1,8 +1,8 @@
 locals {
-  cloud_functions = {
-    "hello-world" = {
+  cloud_functions = { for k, v in {
+    hello-world = {
       ingress_settings = "ALLOW_ALL"
     }
-    "st1-news-extraction" = {}
-  }
+  }: k => v
+    if length(fileset("../functions/${k}", "*")) > 0 }
 }
